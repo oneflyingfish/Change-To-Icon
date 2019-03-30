@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/ChangeToIcon">
+        <file>Icon/program.ico</file>
+    </qresource>
+</RCC>
