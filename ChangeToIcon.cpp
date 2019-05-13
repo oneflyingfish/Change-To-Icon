@@ -117,22 +117,12 @@ QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 	}
 
 	int index=0;
-	int count=0;
 	for(int i=0;i<8;i++)
 	{
-		if(times[i]==times[index])
-		{
-			count++;
-		}
-		else if(times[i]>times[index])
+		if(times[i]>times[index])
 		{
 			index=i;
-			count=1;
 		}
-	}
-	if(count<=1)
-	{
-		return pixmap;
 	}
 	
 	QColor backgroundColor=color[index];
