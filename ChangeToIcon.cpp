@@ -3,8 +3,8 @@
 
 ChangeToIcon::ChangeToIcon(QWidget *parent): QWidget(parent)
 {
-	GetForm();																			//³õÊ¼»¯½çÃæ
-	ConnectSignalAndSlot();																//°ó¶¨ĞÅºÅÓë²Û+
+	GetForm();																			//åˆå§‹åŒ–ç•Œé¢
+	ConnectSignalAndSlot();																//ç»‘å®šä¿¡å·ä¸æ§½+
 }
 
 void ChangeToIcon::ConnectSignalAndSlot()
@@ -28,7 +28,7 @@ void ChangeToIcon::ToIcon(QUrl url)
 	QString oldFoldPath = url.adjusted(QUrl::RemoveFilename).toLocalFile();
 
 	QString foldPath = "";
-	//¼ÆËãÊÇDesktop»¹ÊÇÔ´ÎÄ¼şÂ·¾¶¶ÔÓ¦µÄÂ·¾¶
+	//è®¡ç®—æ˜¯Desktopè¿˜æ˜¯æºæ–‡ä»¶è·¯å¾„å¯¹åº”çš„è·¯å¾„
 	if (this->extendWidget->savePathKind == SavePath::pivturePath)
 	{
 		foldPath = oldFoldPath;
@@ -38,7 +38,7 @@ void ChangeToIcon::ToIcon(QUrl url)
 		foldPath= QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)+"/";
 	}
 
-	//¼ÆËãÌí¼ÓÎÄ¼ş¼ĞÊ±Â·¾¶
+	//è®¡ç®—æ·»åŠ æ–‡ä»¶å¤¹æ—¶è·¯å¾„
 	QString fileName = foldPath;
 	if (this->extendWidget->newFoldKind == NewFold::hasFold)
 	{
@@ -51,7 +51,7 @@ void ChangeToIcon::ToIcon(QUrl url)
 		delete dir;
 	}
 
-	//¼ÆËã×îÖÕÎÄ¼ş±£´æÂ·¾¶£¨º¬ÎÄ¼şÃû£©
+	//è®¡ç®—æœ€ç»ˆæ–‡ä»¶ä¿å­˜è·¯å¾„ï¼ˆå«æ–‡ä»¶åï¼‰
 	QString name = "";
 	name+= oldFileName.section('.', 0, -2) + ".ico";
 	fileName += name;
@@ -60,37 +60,37 @@ void ChangeToIcon::ToIcon(QUrl url)
 
 	QPixmap pixmap(url.toLocalFile());
 
-	if (this->extendWidget->autoCutChoose == AutoCut::yes)	//×Ô¶¯¼ôÇĞÍ¼Æ¬
+	if (this->extendWidget->autoCutChoose == AutoCut::yes)	//è‡ªåŠ¨å‰ªåˆ‡å›¾ç‰‡
 	{
 		pixmap = AutoDealWithImage(pixmap).copy();
 	}
 
 	progressBar->setValue(progressBar->value() + n / 0.05);
 
-	pixmap=pixmap.scaled(pictureSize, pictureSize);			//¹æ¶¨´óĞ¡
+	pixmap=pixmap.scaled(pictureSize, pictureSize);			//è§„å®šå¤§å°
 	if (!pixmap.save(fileName, "ICO"))
 	{
-		if (pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + tr("/") + name, "ICO"))	//³É¹¦
+		if (pixmap.save(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + tr("/") + name, "ICO"))	//æˆåŠŸ
 		{
-			QMessageBox::information(this,"ÌáÊ¾",oldFileName + "Ğ´ÈëÂ·¾¶´íÎó£¬ÒÑ¾­Ğ´ÈëÔÚ×ÀÃæ");
+			QMessageBox::information(this,"æç¤º",oldFileName + "å†™å…¥è·¯å¾„é”™è¯¯ï¼Œå·²ç»å†™å…¥åœ¨æ¡Œé¢");
 		}
 		else
 		{
-			QMessageBox::information(this, "´íÎó", oldFileName + "Ğ´ÈëÊ§°Ü");
+			QMessageBox::information(this, "é”™è¯¯", oldFileName + "å†™å…¥å¤±è´¥");
 		}
 	}
 }
 
 QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 {
-	QImage image = pixmap.toImage();	//×ª»¯ÎªimageÊµÏÖÏñËØ¼¶´¦Àí
-	image = image.convertToFormat(QImage::Format_ARGB32);	//Ö§³ÖÍ¸Ã÷É«
+	QImage image = pixmap.toImage();	//è½¬åŒ–ä¸ºimageå®ç°åƒç´ çº§å¤„ç†
+	image = image.convertToFormat(QImage::Format_ARGB32);	//æ”¯æŒé€æ˜è‰²
 
-	//¹À¼Æ±³¾°É«
+	//ä¼°è®¡èƒŒæ™¯è‰²
 	QColor color[8];
 	int times[8];
 
-	//ÑÕÉ«²ÉÑù
+	//é¢œè‰²é‡‡æ ·
 	color[0] = image.pixelColor(2, 2);
 	color[1] = image.pixelColor(image.width() / 2, 2);
 	color[2] = image.pixelColor(image.width() - 3, 2);
@@ -116,50 +116,20 @@ QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 		}
 	}
 
-	for (int i = 0; i < 8; i++)
+	int index=0;
+	for(int i=0;i<8;i++)
 	{
-		if (times[i] == 1)
+		if(times[i]>times[index])
 		{
-			if (i == 7)
-			{
-				return pixmap;
-			}
-		}
-		else
-		{
-			break;
-		}
-
-	}
-
-	QColor backgroundColor;
-	for (int i = 0; i < 8; i++)
-	{
-		if (i == 7)
-		{
-			backgroundColor = color[i];
-			goto LOOP0;
-		}
-
-		for (int j = i + 1; j < 8; j++)
-		{
-			if (times[i] < times[j])
-			{
-				break;
-			}
-
-			if (j == 7)
-			{
-				backgroundColor = color[i];
-				goto LOOP0;
-			}
+			index=i;
 		}
 	}
+	QColor backgroundColor=color[index];
 
 LOOP0:;
 	progressBar->setValue(progressBar->value() + n * 0.3);
 
-	//Ìæ»»±³¾°É«
+	//æ›¿æ¢èƒŒæ™¯è‰²
 	for (int w = 0; w < image.width(); ++w)
 	{
 		for (int h = 0; h < image.height(); ++h)
@@ -167,7 +137,7 @@ LOOP0:;
 			QColor pixColor = image.pixelColor(w, h);
 			if (pixColor == backgroundColor)
 			{
-				//Ìæ»»ÑÕÉ«
+				//æ›¿æ¢é¢œè‰²
 				image.setPixelColor(w, h, QColor(0, 0, 0, 0));
 			}
 		}
@@ -175,7 +145,7 @@ LOOP0:;
 	progressBar->setValue(progressBar->value() + n * 0.3);
 
 
-	//À©´óÍ¼Ïñ
+	//æ‰©å¤§å›¾åƒ
 	int size = 0;
 	if (image.height() >= image.width())
 	{
@@ -192,14 +162,14 @@ LOOP0:;
 	painter.setRenderHint(QPainter::SmoothPixmapTransform, true);
 	painter.drawImage(QPoint(size, size), image);
 	painter.end();
-	image = pixmap0.toImage();	//kuo'zhongÀ©³äºóÍ¼Æ¬
+	image = pixmap0.toImage();	//kuo'zhongæ‰©å……åå›¾ç‰‡
 
-	//×Ô¶¯¼ô²ÃÍ¼Æ¬
-	int Ha1 = 0;									//Æ½ĞĞÁ½ÌõÏß
+	//è‡ªåŠ¨å‰ªè£å›¾ç‰‡
+	int Ha1 = 0;									//å¹³è¡Œä¸¤æ¡çº¿
 	int Ha2 = image.height() - 1;
-	int Va1 = 0;									//´¹Ö±Á½ÌõÏß
+	int Va1 = 0;									//å‚ç›´ä¸¤æ¡çº¿
 	int Va2 = image.width() - 1;
-	//É¨Ãè´¹Ö±Ïß
+	//æ‰«æå‚ç›´çº¿
 	for (Va1 = 0; Va1 < image.width(); Va1++)
 	{
 		for (int h = 0; h < image.height(); h++)
@@ -224,7 +194,7 @@ LOOP1:;
 		}
 	}
 LOOP2:;
-	//É¨ÃèË®Æ½Ïß
+	//æ‰«ææ°´å¹³çº¿
 	for (Ha1 = 0; Ha1 < image.height(); Ha1++)
 	{
 		for (int h = 0; h < image.width(); h++)
@@ -250,7 +220,7 @@ LOOP3:;
 	}
 LOOP4:;
 
-	int c;		//È·±£Ha1 < Ha2 ,  Va1<Va2
+	int c;		//ç¡®ä¿Ha1 < Ha2 ,  Va1<Va2
 	if (Ha1 > Ha2)
 	{
 		c = Ha1;
@@ -280,15 +250,15 @@ LOOP4:;
 	}
 }
 
-//ÖØÔØÊÂ¼ş·Ö·¢Æ÷£¬ÊµÏÖQLabel½ÓÊÕÍÏ×§
+//é‡è½½äº‹ä»¶åˆ†å‘å™¨ï¼Œå®ç°QLabelæ¥æ”¶æ‹–æ‹½
 bool ChangeToIcon::eventFilter(QObject * obj, QEvent * ev)
 {
-	//dropLabel´¥·¢ÊÂ¼ş
+	//dropLabelè§¦å‘äº‹ä»¶
 	if (obj == this->dropLabel)
 	{
-		if (ev->type() == QEvent::DragEnter)	//´¥·¢ÎÄ¼şÍÏÈëÊÂ¼ş
+		if (ev->type() == QEvent::DragEnter)	//è§¦å‘æ–‡ä»¶æ‹–å…¥äº‹ä»¶
 		{
-			QDragEnterEvent *eventEvent = dynamic_cast<QDragEnterEvent*>(ev);		//ÔËĞĞÊ±ÀàĞÍÊ¶±ğ£¨¶àÌ¬)
+			QDragEnterEvent *eventEvent = dynamic_cast<QDragEnterEvent*>(ev);		//è¿è¡Œæ—¶ç±»å‹è¯†åˆ«ï¼ˆå¤šæ€)
 			if (count > 0)
 			{
 				eventEvent->ignore();
@@ -302,79 +272,79 @@ bool ChangeToIcon::eventFilter(QObject * obj, QEvent * ev)
 
 			for (int i = 0; i < eventEvent->mimeData()->urls().length(); i++)
 			{
-				//´æÔÚÒ»¸öÎÄ¼ş²»¶Ô
+				//å­˜åœ¨ä¸€ä¸ªæ–‡ä»¶ä¸å¯¹
 				if (eventEvent->mimeData()->urls()[i].toLocalFile().right(4).compare(".png", Qt::CaseInsensitive) && eventEvent->mimeData()->urls()[i].toLocalFile().right(4).compare(".jpg", Qt::CaseInsensitive) && eventEvent->mimeData()->urls()[i].toLocalFile().right(4).compare(".bmp", Qt::CaseInsensitive) && eventEvent->mimeData()->urls()[i].toLocalFile().right(5).compare(".jpeg", Qt::CaseInsensitive) && eventEvent->mimeData()->urls()[i].toLocalFile().right(4).compare(".ico", Qt::CaseInsensitive))
 				{
 					eventEvent->ignore();
-					this->infoLabel->setText(tr("ÎÄ¼ş¸ñÊ½´íÎó"));
+					this->infoLabel->setText(tr("æ–‡ä»¶æ ¼å¼é”™è¯¯"));
 					return true;
 				}
 			}
-			eventEvent->acceptProposedAction();		//ÍÏÈëÎÄ¼ş¾ùÎªÍ¼Æ¬
+			eventEvent->acceptProposedAction();		//æ‹–å…¥æ–‡ä»¶å‡ä¸ºå›¾ç‰‡
 			return true;
 		}
-		else if (ev->type() == QEvent::Drop)			//ÎÄ¼ş·ÅÏÂÊÂ¼ş
+		else if (ev->type() == QEvent::Drop)			//æ–‡ä»¶æ”¾ä¸‹äº‹ä»¶
 		{
-			//µ÷Õû×´Ì¬À¸ÌáÊ¾
-			this->infoLabel->setText(tr("ÇëÉÔµÈ..."));
+			//è°ƒæ•´çŠ¶æ€æ æç¤º
+			this->infoLabel->setText(tr("è¯·ç¨ç­‰..."));
 			this->progressBar->setValue(0);
 			this->progressBar->setVisible(true);
 
-			//¿ªÊ¼´¦Àí
-			QTime time;								//²âËãÔËĞĞÊ±¼ä
+			//å¼€å§‹å¤„ç†
+			QTime time;								//æµ‹ç®—è¿è¡Œæ—¶é—´
 			time.restart();
 
 			QDropEvent *eve = dynamic_cast<QDropEvent*>(ev);
 			QList<QUrl> imageUrlList = eve->mimeData()->urls();
 			count = imageUrlList.length();
 
-			n = 100 / count;					//´¦ÀíÃ¿ÕÅÕÕÆ¬µÄÍê³É¶È
+			n = 100 / count;					//å¤„ç†æ¯å¼ ç…§ç‰‡çš„å®Œæˆåº¦
 			for (int i = 0; i < count; i++)
 			{
 				ToIcon(imageUrlList[i]);
-				progressBar->setValue(n*(i + 1));		//´¦ÀíÍêÒ»ÕÅÍ¼Æ¬
+				progressBar->setValue(n*(i + 1));		//å¤„ç†å®Œä¸€å¼ å›¾ç‰‡
 			}
 
 			progressBar->setValue(100);
 			qDebug() << time.elapsed() << endl;
-			this->infoLabel->setText(tr("ÒÑÍê³É£¬ºÄÊ±") + QString::number(time.elapsed(), 10) + tr("ms"));
+			this->infoLabel->setText(tr("å·²å®Œæˆï¼Œè€—æ—¶") + QString::number(time.elapsed(), 10) + tr("ms"));
 			this->count = 0;
 
 			return true;
 		}
 		else
 		{
-			return false;							//¼ÌĞøÅ×¸ødropLabel´¦ÀíÆäËüÊ±¼ä
+			return false;							//ç»§ç»­æŠ›ç»™dropLabelå¤„ç†å…¶å®ƒæ—¶é—´
 		}
 	}
 	else
 	{
-		return eventFilter(obj, ev);				//¼ÌĞøÉÏÅ×ÊÂ¼ş
+		return eventFilter(obj, ev);				//ç»§ç»­ä¸ŠæŠ›äº‹ä»¶
 	}
 }
 
-//¶¨Òå½çÃæ³õÊ¼»¯º¯Êı
+//å®šä¹‰ç•Œé¢åˆå§‹åŒ–å‡½æ•°
 void ChangeToIcon::GetForm()
 {
-	//¶¨ÒåÖ÷½çÃæ²ÎÊı
+	//å®šä¹‰ä¸»ç•Œé¢å‚æ•°
 	mainVBoxLayout->setSizeConstraint(QLayout::SetFixedSize);
 	this->setWindowIcon(QIcon(":/ChangeToIcon/Icon/program.ico"));
-	this->setWindowTitle(tr("Icon×ª»¯¹¤¾ß"));
+	this->setWindowTitle(tr("Iconè½¬åŒ–å·¥å…·"));
 	this->setMaximumWidth(310);
 	this->setMaximumHeight(280);
 	this->setStyleSheet("background-color: rgba(250, 250, 250,255);");
 
-	//ÉèÖÃÍÏ×§¿Ø¼ş²ÎÊı
+	//è®¾ç½®æ‹–æ‹½æ§ä»¶å‚æ•°
 	dropLabel->setStyleSheet("border:1px solid rgb(207, 207, 207);font: 9pt;color: gray;");
 	dropLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 	dropLabel->setFixedSize(150, 150);
-	dropLabel->setAcceptDrops(true);													//ÉèÖÃ½ÓÊÕÍÏ×§
-	dropLabel->installEventFilter(this);												//°²×°ÊÂ¼ş·Ö·¢Æ÷
+	dropLabel->setAcceptDrops(true);													//è®¾ç½®æ¥æ”¶æ‹–æ‹½
+	dropLabel->installEventFilter(this);												//å®‰è£…äº‹ä»¶åˆ†å‘å™¨
 
-	//ÉèÖÃ×´Ì¬À¸½ø¶ÈÌõĞÅÏ¢²»¿É¼û
+	//è®¾ç½®çŠ¶æ€æ è¿›åº¦æ¡ä¿¡æ¯ä¸å¯è§
 	this->progressBar->setVisible(false);
 
-	//ÉèÖÃ´óĞ¡°´Å¥×ÖÌå
+	//è®¾ç½®å¤§å°æŒ‰é’®å­—ä½“
 	sizeRadiobutton_16->setStyleSheet("font: 10pt");
 	sizeRadiobutton_32->setStyleSheet("font: 10pt");
 	sizeRadiobutton_48->setStyleSheet("font: 10pt");
@@ -383,7 +353,7 @@ void ChangeToIcon::GetForm()
 	sizeRadiobutton_96->setStyleSheet("font: 10pt");
 	sizeRadiobutton_128->setStyleSheet("font: 10pt");
 
-	//´óĞ¡°´Å¥²¼¾Ö
+	//å¤§å°æŒ‰é’®å¸ƒå±€
 	radioVboxlayout->addWidget(sizeRadiobutton_16);
 	radioVboxlayout->addWidget(sizeRadiobutton_32);
 	radioVboxlayout->addWidget(sizeRadiobutton_48);
@@ -394,7 +364,7 @@ void ChangeToIcon::GetForm()
 	radioVboxlayout->setMargin(0);
 	radioVboxlayout->setSpacing(3);
 
-	//ÉèÖÃ´óĞ¡Ñ¡Ôñ»¥³â
+	//è®¾ç½®å¤§å°é€‰æ‹©äº’æ–¥
 	radioBox->addButton(sizeRadiobutton_16);
 	radioBox->addButton(sizeRadiobutton_32);
 	radioBox->addButton(sizeRadiobutton_48);
@@ -403,7 +373,7 @@ void ChangeToIcon::GetForm()
 	radioBox->addButton(sizeRadiobutton_96);
 	radioBox->addButton(sizeRadiobutton_128);
 
-	//ÉèÖÃ´óĞ¡Ä¬ÈÏÖµ
+	//è®¾ç½®å¤§å°é»˜è®¤å€¼
 	sizeRadiobutton_128->setChecked(true);
 
 	upHboxLayout->addWidget(dropLabel,1);
@@ -412,14 +382,14 @@ void ChangeToIcon::GetForm()
 	upHboxLayout->addStretch();
 	upHboxLayout->setMargin(15);
 
-	//¶¨Òå¹¦ÄÜ°´Å¥
+	//å®šä¹‰åŠŸèƒ½æŒ‰é’®
 	downHBoxLayout->addWidget(hideWidgetButton);
 	downHBoxLayout->addStretch();
 	downHBoxLayout->addWidget(aboutusButton);
 	downHBoxLayout->addWidget(exitButton);
 	downHBoxLayout->setMargin(5);
 
-	//¶¨Òå×´Ì¬À¸
+	//å®šä¹‰çŠ¶æ€æ 
 	infoLabel->setStyleSheet("font: 9pt;color: red");
 	infoLabel->setMaximumWidth(150);
 	progressBar->setFixedSize(100,12);
@@ -440,24 +410,24 @@ void ChangeToIcon::ChangeExtend()
 {
 	if (hideWidgetButton->text().endsWith(">>>"))
 	{
-		hideWidgetButton->setText(tr("Òş²ØÉèÖÃ<<<"));
+		hideWidgetButton->setText(tr("éšè—è®¾ç½®<<<"));
 		this->extendWidget->show();
 	}
 	else if(hideWidgetButton->text().endsWith("<<<"))
 	{
-		hideWidgetButton->setText(tr("Õ¹¿ªÉèÖÃ>>>"));
+		hideWidgetButton->setText(tr("å±•å¼€è®¾ç½®>>>"));
 		this->extendWidget->hide();
 		this->resize(310, 280);
 	}
 	else
 	{
-		QMessageBox::information(this, tr("´íÎó"), "Î»ÖÃÍØÕ¹ĞÅÏ¢");
+		QMessageBox::information(this, tr("é”™è¯¯"), "ä½ç½®æ‹“å±•ä¿¡æ¯");
 	}
 }
 
 void ChangeToIcon::AboutUs()
 {
-	QMessageBox::information(NULL, "ÌáÊ¾", "±¾²úÆ·ÍêÈ«Ãâ·Ñ£¬¿ÙÍ¼¼ô²Ã¹¦ÄÜ½öÄÜÖ§³Ö´¿É«±³¾°Í¼Æ¬\nÁªÏµ·½Ê½£ºa_flying_fish@outlook.com");
+	QMessageBox::information(NULL, "æç¤º", "æœ¬äº§å“å®Œå…¨å…è´¹ï¼ŒæŠ å›¾å‰ªè£åŠŸèƒ½ä»…èƒ½æ”¯æŒçº¯è‰²èƒŒæ™¯å›¾ç‰‡\nè”ç³»æ–¹å¼ï¼ša_flying_fish@outlook.com");
 }
 
 void ChangeToIcon::ExitProgram()
