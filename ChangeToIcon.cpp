@@ -88,7 +88,7 @@ QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 
 	//估计背景色
 	QColor color[8];
-	int times[8];
+	int times[8];		//存储当前及后面相同颜色个数
 
 	//颜色采样
 	color[0] = image.pixelColor(2, 2);
@@ -102,7 +102,7 @@ QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 
 	for (int i = 0; i < 8; i++)
 	{
-		times[i] = 0;
+		times[i] = 1;
 	}
 
 	for (int i = 0; i < 7; i++)
@@ -119,6 +119,7 @@ QPixmap ChangeToIcon::AutoDealWithImage(QPixmap pixmap)
 	int index=0;
 	for(int i=0;i<8;i++)
 	{
+		//选取找到的第一个最大值为index
 		if(times[i]>times[index])
 		{
 			index=i;
