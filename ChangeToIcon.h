@@ -42,7 +42,8 @@ public:
 
 	void GetForm();
 	void ConnectSignalAndSlot();
-	QPixmap AutoDealWithImage(QPixmap);
+	QImage RunGrubCut(QPixmap pixmap);
+	QPixmap AutoDealWithImage(QImage image);
 
 public slots:
 	void ChooseSize16();
@@ -61,7 +62,7 @@ private:
 	bool eventFilter(QObject *obj, QEvent *ev);
 
 private:
-	QLabel *dropLabel = new QLabel(tr("ÇëÍÏÈëÍ¼Æ¬...\nÖ§³Öpng|jpg|jpeg|bmp|ico"));
+	QLabel *dropLabel = new QLabel(tr("è¯·æ‹–å…¥å›¾ç‰‡...\næ”¯æŒpng|jpg|jpeg|bmp|ico"));
 	QButtonGroup *radioBox = new QButtonGroup();
 	QRadioButton *sizeRadiobutton_16 = new QRadioButton("16*16");
 	QRadioButton *sizeRadiobutton_32 = new QRadioButton("32*32");
@@ -71,9 +72,9 @@ private:
 	QRadioButton *sizeRadiobutton_96 = new QRadioButton("96*96");
 	QRadioButton *sizeRadiobutton_128 = new QRadioButton("128*128");
 
-	QPushButton *aboutusButton = new QPushButton(tr("¹ØÓÚ"));
-	QPushButton *exitButton = new QPushButton(tr("Àë¿ª"));
-	QPushButton *hideWidgetButton = new QPushButton(tr("Õ¹¿ªÉèÖÃ>>>"));
+	QPushButton *aboutusButton = new QPushButton(tr("å…³äº"));
+	QPushButton *exitButton = new QPushButton(tr("ç¦»å¼€"));
+	QPushButton *hideWidgetButton = new QPushButton(tr("å±•å¼€è®¾ç½®>>>"));
 
 	QVBoxLayout *mainVBoxLayout = new QVBoxLayout();
 	QHBoxLayout *upHboxLayout = new QHBoxLayout();
@@ -81,7 +82,7 @@ private:
 	QHBoxLayout *downHBoxLayout = new QHBoxLayout();
 
 	QStatusBar *statusBar = new QStatusBar();
-	QLabel *infoLabel = new QLabel(tr("»¶Ó­£¡"));
+	QLabel *infoLabel = new QLabel(tr("æ¬¢è¿ï¼"));
 	QProgressBar *progressBar = new QProgressBar();
 
 	QLine *line = new QLine();
@@ -90,7 +91,7 @@ private:
 
 	int pictureSize = 128;
 	int count = 0;
-	int n = 0;						//Íê³ÉÒ»ÕÅÍ¼Æ¬½ø¶ÈÌõÔö¼ÓµÄÊıÖµ
+	int n = 0;						//å®Œæˆä¸€å¼ å›¾ç‰‡è¿›åº¦æ¡å¢åŠ çš„æ•°å€¼
 };
 
 #endif
