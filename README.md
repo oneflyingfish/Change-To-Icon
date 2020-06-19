@@ -3,7 +3,7 @@
 
 ## 开发环境：
 开发语言：C++  
-开发环境：QT 5.11.1  
+开发环境：QT 5.11.1 , OpenCV 3.4.10 V15 , Windows 10 + Visual Stdio 2019 Community
 
 ## 适用平台：
 适用平台：`Windows、Linux、Mac Os X`（相应的编译环境编译得到二进制程序即可）  
@@ -30,12 +30,14 @@
   * 注：可随意混合后同时输入
 
 * 特殊处理
-  * 自动背景透明化 （适用于纯色背景图片)
+  * 自动背景透明化 （基于OpenCV内置的GrabCut算法)
   * 自动剪裁，确保图像内容在正方形正中央（上下左右边距均为2px）
 
 * 智能存储路径
 
-## 二进制构建步骤：
+* 由于OpenCV的Alpha通道问题，现版本自动抠图模块应用于前景包含RGB(247,175,237)像素点时存在局限性
+
+## 二进制构建步骤（此处省去C++ OpenCV环境搭建过程）：
 #### 1、下载源代码文件夹：
 ```Bash
 wget https://codeload.github.com/oneflyingfish/Change-To-Icon/zip/master #可通过浏览器下载
