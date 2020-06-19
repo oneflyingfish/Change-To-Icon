@@ -5,7 +5,11 @@ ExtendWidget::ExtendWidget(QWidget *parent): QWidget(parent)
 	this->setStyleSheet("font: 14px");
 	autoCutVboxLayout->addWidget(autoCutTrueButton);
 	autoCutVboxLayout->addWidget(autoCutFalseButton);
-	autoCutTrueButton->setToolTip(tr("ÓÐÒ»¶¨Ê§°ÜÂÊ£¬±³¾°É«´¿¶ÈÔ½¸ßÔ½¿ÉÄÜ³É¹¦"));
+	autoCutTrueButton->setToolTip(tr("åŸºäºŽGrabCutç®—æ³•ï¼Œæ¯”è¾ƒè€—æ—¶"));
+	autoCutHBoxLayout->addWidget(iterationsLabel);
+	autoCutHBoxLayout->addWidget(iterationsSpinBox);
+	autoCutHBoxLayout->addStretch();
+	autoCutVboxLayout->addLayout(autoCutHBoxLayout);
 	autoCutVboxLayout->setSpacing(3);
 	autoCutGroupBox->setLayout(autoCutVboxLayout);
 
@@ -27,21 +31,33 @@ ExtendWidget::ExtendWidget(QWidget *parent): QWidget(parent)
 	this->hide();
 	this->frameGeometry().setWidth(310);
 
-	ConnectSignalAndSlot();
+	this->ConnectSignalAndSlot();
 
-	autoCutFalseButton->setChecked(true);
-	picturePathButton->setChecked(true);
-	noFoldButton->setChecked(true);
+	this->autoCutFalseButton->setChecked(true);
+	this->picturePathButton->setChecked(true);
+	this->noFoldButton->setChecked(true);
 
-	autoCutChoose = AutoCut::no;
-	savePathKind = SavePath::pivturePath;
-	newFoldKind = NewFold::noFold;
+	this->autoCutChoose = AutoCut::no;
+	this->savePathKind = SavePath::pivturePath;
+	this->newFoldKind = NewFold::noFold;
+
+	this->iterationsSpinBox->setMaximum(15);
+	this->iterationsSpinBox->setMinimum(1);
+	this->iterationsSpinBox->setValue(3);
+	this->iterationsLabel->setToolTip(tr("è¿­ä»£æ¬¡æ•°è¶Šå¤§è¶Šè€—æ—¶ï¼Œä½†æ•ˆæžœç›¸å¯¹ä¼šæ›´å¥½"));
+}
+
+int ExtendWidget::getIterations()
+{
+	return this->iterationsSpinBox->value();
 }
 
 ExtendWidget::~ExtendWidget()
 {
 	autoCutTrueButton->deleteLater();
 	autoCutFalseButton ->deleteLater();
+	iterationsLabel->deleteLater();
+	iterationsSpinBox->deleteLater();
 
 	picturePathButton ->deleteLater();
 	desktopPathButton ->deleteLater();
@@ -53,6 +69,7 @@ ExtendWidget::~ExtendWidget()
 	savePathGroupBox->deleteLater();
 	newFoldGroupBox->deleteLater();
 
+	autoCutHBoxLayout->deleteLater();
 	savePathVboxLayout->deleteLater();
 	autoCutVboxLayout->deleteLater();
 	newFoldVboxLayout->deleteLater();
