@@ -41,9 +41,9 @@ ExtendWidget::ExtendWidget(QWidget *parent): QWidget(parent)
 	this->savePathKind = SavePath::pivturePath;
 	this->newFoldKind = NewFold::noFold;
 
-	this->iterationsSpinBox->setMaximum(15);
+	this->iterationsSpinBox->setMaximum(30);
 	this->iterationsSpinBox->setMinimum(1);
-	this->iterationsSpinBox->setValue(3);
+	this->iterationsSpinBox->setValue(10);
 	this->iterationsLabel->setToolTip(tr("迭代次数越大越耗时，但效果相对会更好"));
 }
 
