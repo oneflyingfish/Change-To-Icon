@@ -1,16 +1,20 @@
-﻿#ifndef EXTENDWIDGET_H
+#ifndef EXTENDWIDGET_H
 #define EXTENDWIDGET_H
 
 #ifdef WIN32  
 #pragma execution_character_set("utf-8")  
 #endif
 
-#include <QtWidgets/QWidget>
+#include<QtWidgets/QWidget>
 #include<QRadioButton>
 #include<QButtonGroup>
 #include<QGroupBox>
 #include<QBoxLayout>
+#include<QSpinBox>
+#include<QHBoxLayout>
+#include<QLabel>
 #include"enumChoose.h"
+
 
 class ExtendWidget: public QWidget
 {
@@ -28,6 +32,8 @@ public slots:
 	void hasFoldCheck();
 	void noFoldCheck();
 
+	int getIterations();
+
 public:
 	AutoCut autoCutChoose;
 	SavePath savePathKind;
@@ -40,11 +46,14 @@ private:
 	QGroupBox *newFoldGroupBox = new QGroupBox(tr("文件夹选项"));
 
 	QVBoxLayout *autoCutVboxLayout = new QVBoxLayout();
+	QHBoxLayout *autoCutHBoxLayout = new QHBoxLayout();
 	QVBoxLayout *savePathVboxLayout = new QVBoxLayout();
 	QVBoxLayout *newFoldVboxLayout = new QVBoxLayout();
 
 	QRadioButton *autoCutTrueButton = new QRadioButton(tr("是"));
 	QRadioButton *autoCutFalseButton = new QRadioButton(tr("否"));
+	QLabel* iterationsLabel = new QLabel(tr("迭代次数: "));
+	QSpinBox* iterationsSpinBox = new QSpinBox();
 
 	QRadioButton *picturePathButton = new QRadioButton(tr("源文件路径"));
 	QRadioButton *desktopPathButton = new QRadioButton(tr("桌面"));
