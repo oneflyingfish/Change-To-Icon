@@ -19,7 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 # Input
-HEADERS += ChangeToIcon.h enumChoose.h extendWidget.h resource.h
+HEADERS += ChangeToIcon.h enumChoose.h extendWidget.h QT_CV.h resource.h
 FORMS += ChangeToIcon.ui
-SOURCES += ChangeToIcon.cpp extendWidget.cpp main.cpp
+SOURCES += ChangeToIcon.cpp extendWidget.cpp QT_CV.cpp main.cpp
 RESOURCES += ChangeToIcon.qrc
